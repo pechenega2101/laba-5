@@ -1,0 +1,145 @@
+#include<iostream>
+#include <string>
+using namespace std;
+class Sport_Transport {
+protected:
+	int cost=30000;
+public:
+	Sport_Transport() {};
+	Sport_Transport(int cst) {
+		cst = cost;
+	}
+	virtual ~Sport_Transport() {};
+	virtual void set_all() = 0; 		
+	virtual void vyvod() = 0;
+}; 
+class track :public  Sport_Transport {
+protected:
+	string tires;
+public:
+	track() {};
+	track(/*string sus,*/ string tir, /*string eng*/int cst) :Sport_Transport(cst) { tir = tires; }
+	~track() {};
+	void set_all() {
+		int vyb;
+		cout << "Choose tires which you want:1-soft,2-medium,3-hard" << endl;
+		do {
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore();
+			}
+			cin >> vyb;
+		} while (!vyb || vyb < 1 || vyb>3);
+		if (vyb == 1)
+		{
+			tires = "soft";
+			cost += 1500;
+		}
+		if (vyb == 2)
+		{
+			tires = "medium";
+			cost += 1800;
+		}
+		if (vyb == 3)
+		{
+			tires = "hard";
+			cost += 1600;
+		}
+	}
+	void vyvod()
+	{
+		cout << "You choose " << tires << " tires." << endl << "It costs:" << cost<<endl;
+	}
+};
+class offroad :public  Sport_Transport {
+protected:
+	string amortization;
+public:
+	offroad() {};
+	offroad( string amort,int cst) :Sport_Transport(cst) { amort = amortization; }
+	~offroad() {};
+	void set_all() {
+		int vyb;
+		cout << "Choose type of your vehicles amortization:1-oil,2-gas" << endl;
+		do {
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore();
+			}
+			cin >> vyb;
+		} while (!vyb || vyb < 1 || vyb>2);
+		if (vyb == 1)
+		{
+			amortization = "oil";
+			cost += 1000;
+		}
+		if (vyb == 2)
+		{
+			amortization = "gas";
+			cost += 1250;
+		}
+	}
+	void vyvod()
+	{
+		cout << "You choose " << amortization << " amortization." << endl << "It costs:" << cost << endl;
+	}
+};
+class LeMan_car :public track {
+protected:
+	string downforce;
+public:
+	LeMan_car() {};
+	LeMan_car( string tir, int cst, string down) :track( tir,cst) { down = downforce; }
+	~LeMan_car() {};
+	void set_all() {
+		int vyb;
+		cout << "We can offer you 3 types of equipement,which can provide you downforce you need.Choose one,please :1-300N,2-375N,3-450N" << endl;
+		do {
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore();
+			}
+			cin >> vyb;
+		} while (!vyb || vyb < 1 || vyb>3);
+		if (vyb == 1)
+		{
+			downforce = "complect 1";
+			cost += 750;
+		}
+		if (vyb == 2)
+		{
+			downforce = "complect 2";
+			cost += 1000;
+		}
+		if (vyb == 3)
+		{
+			downforce = "complect 3";
+			cost += 1250;
+		}
+	}
+	void vyvod()
+	{
+		cout << "You choose " << downforce << " for downforce." << endl << "It costs:" << cost << endl;
+	}
+};
+int main()
+{
+	
+	Sport_Transport* mas[3];
+	mas[0] = new track();
+	mas[1] = new offroad();
+	mas[2] = new LeMan_car();
+
+	for (int i = 0; i < 3; i++) {
+		mas[i]->set_all();
+		mas[i]->vyvod();
+		cout << endl;
+	}
+	for (int i = 0; i < 3; i++) {
+		delete mas[i];
+	}
+	return 0;
+}
